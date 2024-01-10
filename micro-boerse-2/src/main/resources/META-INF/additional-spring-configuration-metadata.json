@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "marketstack.api.url",
+    "type": "java.lang.String",
+    "description": "A description for 'marketstack.api.url'"
+  },
+  {
+    "name": "marketstack.access.key",
+    "type": "java.lang.String",
+    "description": "A description for 'marketstack.access.key'"
+  }
+]}

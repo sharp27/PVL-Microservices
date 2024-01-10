@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Marktdaten Auswertung</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        h2 {
+            text-align: center;
+            padding: 20px 0;
+        }
+        table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        form {
+            margin-bottom: 20px;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            padding: 8px;
+            width: 70%;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+	<h2>Marktdaten Auswertung</h2>
+    <p>Hier sehen Sie die Symbole für die Big Tech 5 Unternehmen:</p>
+    <ul>
+        <li>Google: GOOGL</li>
+        <li>Apple: AAPL</li>
+        <li>Meta: META</li>
+        <li>Amazon: AMZN</li>
+        <li>Microsoft: MSFT</li>
+    </ul>
+    <p>Weitere Symbole können unter dem folgenden Link gesucht werden: <a href="https://marketstack.com/search" target="_blank">MarketStack Symbol-Suche</a>.</p>
+
+    
+	<div>
+		<form th:action="@{/evaluate/data}" method="get">
+			<input type="text" name="symbol"
+				placeholder="Symbol für App 1 eingeben"> <input
+				type="hidden" name="service" value="app1">
+			<button type="submit">Daten von App 1 anzeigen</button>
+		</form>
+
+		<form th:action="@{/evaluate/data}" method="get">
+			<input type="text" name="symbol"
+				placeholder="Symbol für App 2 eingeben"> <input
+				type="hidden" name="service" value="app2">
+			<button type="submit">Daten von App 2 anzeigen</button>
+		</form>
+	</div>
+
+
+	<!-- Tabelle für App 1 -->
+	<div th:if="${data1 != null}">
+		<h3 th:text="'Auswertung für ' + ${data1.symbol}">Auswertung</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>Datum</th>
+					<th>Kurs</th>
+					<th>Prozentuale Veränderung zum Vortag</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="change : ${data1.changes}">
+					<td th:text="${change.date}">Datum</td>
+					<td th:text="${change.close}">Kurs</td>
+					<td th:text="${#numbers.formatDecimal(change.percentageChange, 1, 'COMMA', 2, 'POINT')}">Veränderung</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<!-- Tabelle für App 2 -->
+	<div th:if="${data2 != null}">
+		<h3 th:text="'Auswertung für ' + ${data2.symbol}">Auswertung</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>Datum</th>
+					<th>Kurs</th>
+					<th>Prozentuale Veränderung zum Vortag</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="change : ${data2.changes}">
+					<td th:text="${change.date}">Datum</td>
+					<td th:text="${change.close}">Kurs</td>
+					<td th:text="${#numbers.formatDecimal(change.percentageChange, 1, 'COMMA', 2, 'POINT')}">Veränderung</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+</body>
+</html>
+
